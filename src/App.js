@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+const url = require("../node_modules/country-json/src/country-by-capital-city.json");
 
-function App() {
+const App = () => {
+  const [myOptions, setMyOptions] = useState([]);
+  const getDataFromAPI = async () => {
+    console.log("Options Fetched from API");
+    for (var i = 0; i < url.length; i++) {
+      myOptions.push(url[i].country);
+    }
+    setMyOptions(myOptions);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Hello</h1>
+      <div style={{ marginLeft: "40%", marginTop: "60px" }}>
+        <Autocomplete
+          style={{ width: 500 }}
+          freeSolo
+          autoComplete
+          autoHighlight
+          options={myOptions}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              onChange={getDataFromAPI}
+              variant="outlined"
+              label="Search Box"
+            />
+          )}
+        />
+      </div>
+    </>
   );
-}
+};
 
 export default App;
